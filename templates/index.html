@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Classification System</title>
+    <style>
+        /* Basic reset for styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url("/static/img3.jpg"); /* Update path here */
+            background-color: #3498db;
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            background-color: rgba(221, 214, 231, 0.9);
+            box-shadow: 0 8px 16px rgba(216, 56, 56, 0.2);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: "Cursive", sans-serif;
+            font-size: 2.5em;
+            color: #34577a;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .upload-btn {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #3498db;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .upload-btn-wrapper input[type="file"] {
+            font-size: 16px;
+            color: transparent;
+            background-color: transparent;
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+            opacity: 0;
+        }
+
+        .file-info {
+            margin-top: 20px;
+            font-size: 1em;
+            color: #16a085;
+            font-family: "Arial", sans-serif;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #e74c3c;
+            font-family: "Monospace", monospace;
+            font-weight: bold;
+        }
+
+        .spinner {
+            display: none;
+            margin-top: 20px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #recommendations {
+    margin-top: 30px;
+    font-size: 1.1em;
+    color: #2d3436;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    max-height: 500px; /* Prevent it from growing too large */
+    overflow-y: auto;  /* Allow scrolling if the content overflows */
+}
+
+#recommendations h3 {
+    font-size: 1.6em;
+    color: #27ae60;
+    font-weight: 800;  /* Lowered the font weight */
+    margin-bottom: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Dancing Script', cursive; /* Cursive font family */
+}
+
+/* Make the recommendations section stand out with a subtle hover effect */
+#recommendations:hover {
+    background-color: #e0f2f1;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Style the recommendation list */
+#recommendation-list {
+    margin-top: 15px;
+    list-style-type: none;
+    padding: 0;
+}
+
+#recommendation-list li {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    font-family: 'Dancing Script', cursive; /* Cursive font family */
+    line-height: 1.6;
+    color: #34495e;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+}
+
+#recommendation-list li:hover {
+    transform: scale(1.05);
+    background-color: #f1f8f6;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+#recommendation-list a {
+    color: #27ae60;
+    text-decoration: none;
+    font-weight: 400;  /* Lowered the font weight */
+    transition: color 0.3s ease;
+}
+
+#recommendation-list a:hover {
+    color: #1e8449;
+    text-decoration: underline;
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+    #recommendations {
+        font-size: 1.2em;
+        padding: 25px;
+    }
+
+    #recommendations h3 {
+        font-size: 1.8em;
+    }
+
+    #recommendation-list li {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 576px) {
+    #recommendations {
+        padding: 15px;
+    }
+
+    #recommendation-list li {
+        font-size: 1em;
+    }
+}
+
+
+        #educational-content {
+    margin-top: 20px;
+    padding: 20px;
+    font-size: 1.1em;
+    color: #34495e;
+    border: 1px solid #bdc3c7;
+    border-radius: 10px;
+    background-color: #ecf0f1;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 500px; /* To prevent it from growing too large */
+    overflow-y: auto;  /* Scroll if content overflows */
+}
+
+/* Adding hover effect */
+#educational-content:hover {
+    background-color: #dfe6e9;
+    border-color: #95a5a6;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Styling for each list item inside the educational content */
+#educational-content li {
+    margin-bottom: 15px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #2c3e50;
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+#educational-content li:last-child {
+    margin-bottom: 0;
+}
+
+/* Style for the educational content title */
+#educational-content h3 {
+    font-size: 1.5em;
+    color: #16a085;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Styling the links inside educational content */
+#educational-content a {
+    color: #2980b9;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#educational-content a:hover {
+    color: #1abc9c;
+    text-decoration: underline;
+}
+
+/* Styling for large screens (responsive design) */
+@media (min-width: 768px) {
+    #educational-content {
+        font-size: 1.2em;
+        padding: 25px;
+    }
+
+    #educational-content li {
+        font-size: 1.2em;
+    }
+
+    #educational-content h3 {
+        font-size: 1.8em;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container flex-container">
+        <h1>🌍 Waste Recommendations System </h1>
+        <p>Select an image to classify</p>
+
+        <div class="upload-btn-wrapper">
+            <button class="upload-btn">Choose Image</button>
+            <input type="file" name="file" id="fileInput" accept="image/*" onchange="displayFileName()" />
+        </div>
+
+        <div id="file-info" class="file-info"></div>
+        <div id="spinner" class="spinner"></div>
+
+        <div id="result" class="result"></div>
+        <div id="category" class="result"></div> <!-- Waste Category Display -->
+
+        <!-- Recommendations Section -->
+        <div id="recommendations" style="display:none;">
+            <h3>Recommended Products:</h3>
+            <ul id="recommendation-list"></ul>
+        </div>
+
+        <!-- Educational Content Section -->
+        <div id="educational-content" style="display:none;"></div>
+    </div>
+
+    <script>
+        function displayFileName() {
+            const fileInput = document.getElementById('fileInput');
+            const fileName = fileInput.files[0].name;
+            document.getElementById('file-info').innerHTML = `Selected file: ${fileName}`;
+            predictImage(fileInput.files[0]);
+        }
+
+        function predictImage(file) {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const spinner = document.getElementById("spinner");
+            const resultDiv = document.getElementById("result");
+            const categoryDiv = document.getElementById("category");
+            const recommendationsDiv = document.getElementById("recommendations");
+            const recommendationList = document.getElementById("recommendation-list");
+            const educationalContentDiv = document.getElementById("educational-content");
+
+            spinner.style.display = "inline-block";
+            resultDiv.style.display = "none";
+            categoryDiv.style.display = "none";
+            recommendationsDiv.style.display = "none";
+            educationalContentDiv.style.display = "none";
+
+            fetch("/predict", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                spinner.style.display = "none";
+                resultDiv.style.display = "block";
+                categoryDiv.style.display = "block";
+
+                if (data.predicted_class && data.waste_category) {
+                    resultDiv.innerHTML = `Predicted Class: <strong>${data.predicted_class}</strong>`;
+                    categoryDiv.innerHTML = `Waste Category: <strong>${data.waste_category}</strong>`;
+
+                    // Display recommendations
+                    recommendationList.innerHTML = "";
+                    if (data.recommendations && data.recommendations.length > 0) {
+                        recommendationsDiv.style.display = "block";
+                        data.recommendations.forEach(item => {
+                            const listItem = document.createElement("li");
+                            listItem.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+                            recommendationList.appendChild(listItem);
+                        });
+                    }
+
+                    // Display educational content
+                    if (data.educational_content) {
+                        educationalContentDiv.style.display = "block";
+                        educationalContentDiv.innerHTML = `<strong>Educational Content:</strong><br>${data.educational_content}`;
+                    }
+                }
+            })
+            .catch(error => {
+                spinner.style.display = "none";
+                resultDiv.style.display = "block";
+                resultDiv.innerHTML = `Error: ${error.message}`;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+/* General reset for consistency */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Styling the body for a modern, clean look */
+body {
+    font-family: 'Poppins', sans-serif; /* Stylish font */
+    background: linear-gradient(135deg, #89f7fe, #66a6ff); /* Gradient background */
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container styling for centering and shadow effects */
+.container {
+    text-align: center;
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Title styling for a more welcoming look */
+h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #444;
+    font-weight: bold;
+}
+
+/* Paragraph for subtle guidance */
+p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+/* Stylish file input */
+input[type="file"] {
+    display: block;
+    margin: 15px auto;
+    font-size: 1rem;
+    color: #444;
+    border: 2px dashed #007BFF;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: 0.3s ease;
+}
+
+input[type="file"]:hover {
+    border-color: #0056b3;
+    background-color: #eef7ff;
+}
+
+/* Button styling for interaction */
+button {
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #0056b3, #003f7f);
+    transform: translateY(-3px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 20px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 8px 16px;
+    }
+}
